@@ -1,4 +1,4 @@
-# Editorconfig IntelliJ Extensions
+# `.editorconfig` IntelliJ Extensions
 
 This repository starts out as just a list of all IntelliJ extensions to the `.editorconfig`
 file. As of initialization, there's no comprehensive documentation from JetBrains listing all
@@ -12,7 +12,7 @@ supported languages).
 
 ## Later
 
-This may become a standalone extension to the main [`editorconfig-vscode`](), rather than
-embedding the functional code into that repo. It would allow users to install the original
-plugin without this, if they want.
+This may become a standalone extension to the main [`editorconfig-vscode`](https://github.com/jtheuerkauf/editorconfig-vscode),
+rather than embedding the functional code into that repo. It would allow users to install the
+original plugin without this, if they want.
 
