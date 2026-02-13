@@ -1,0 +1,42 @@
+# Logs
+logs/
+*.log
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build directories
+dist/
+out/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE specific files
+*.iml
+.idea/
+.jj/
+.vscode/
+
+# Compiled files
+*.class
+*.pyc
+*.pyo
+*.exe
+*.dll
+*.so
+
+# Temporary files
+*.swp
+*.tmp
+*.bak
+*.orig
