@@ -1,3 +1,5 @@
+root=true
+
 #
 # Settings usage
 # * Most settings have multiple levels: general and language-specific.
@@ -5,22 +7,30 @@
 # * If the editor doesn't have built-in support for a rule, settings in the file may have no effect.
 # * Settings support a special "unset" value.
 #   * If the winning (language vs. general) setting is "unset", the editor's setting (if supported) is always used.
-#   * If the general setting is "unset" but a language version has a value, it will be used - general will be ignored.
+#   * If the general setting is "unset" but the language has a value, that will be used - general will be ignored.
 #
-
-root = true;
 
 [*]
 #######################
 ## STANDARD
 ##
+# STRING: latin1 | utf-8 | utf-16be | utf-16le
 charset = unset
+# STRING: cr | crlf | lf
 end_of_line = unset
-indent_size = unset
+# STRING: tab: use width of a tab character (see tab_width)
+# POSITIVE INTEGER: tabs/spaces to use (see indent_style)
+indent_size=tab
+# STRING: space | tab
 indent_style = unset
+# BOOL: ensure EOF is a single blank line
 insert_final_newline = unset
+# STRING: off: do not hard-wrap long lines (or defer to editor)
+# POSITIVE INTEGER: length to hard-wrap lines
 max_line_length = unset
+# POSITIVE INTEGER: visual representation of spaces a single tab character uses
 tab_width = unset
+# BOOL: erase white space at the end of all lines
 trim_trailing_whitespace = unset
 ##
 #######################
@@ -35,12 +45,25 @@ trim_trailing_whitespace = unset
 #######################
 ## GENERAL EDITING
 ##
-
-# Non-negative integer: size of indent for a line continuing a statement from previous line
+# POSITIVE INTEGER to indent contiguous lines that are part of the same statement
+# See indent_size, indent_style, tab_width for how this will be formatted
 ij_continuation_indent_size = unset
+# BOOL: Minimize characters by mixing tab characters and spaces to reach indentation
 ij_smart_tabs = unset
+# POSITIVE INTEGER(S): Comma separated list of ascending values to set the right margin indicator
+# Ex: 80
+# Ex: 80, 120, 160
 ij_visual_guides = unset
+# BOOL: Editor should actively break long lines while typing (see max_line_length)
 ij_wrap_on_typing = unset
+# BOOL: preserve whitespace indents on blank lines to preserve context
+# TODO: Does this override trim_tailing_whitespace?
+ij_any_keep_indents_on_empty_lines = unset
+# BOOL: Preserve preexisting line breaks on unchanged lines
+ij_any_keep_line_breaks = unset
+# BOOL: Wrap long lines, formatting split lines according to other rules
+# TODO: Confirm functionality - doc only says "TBD"
+ij_any_wrap_long_lines = unset
 ##
 #######################
 
@@ -100,8 +123,6 @@ ij_any_keep_blank_lines_in_code = unset
 ij_any_keep_blank_lines_in_declarations = unset
 ij_any_keep_control_statement_in_one_line = unset
 ij_any_keep_first_column_comment = unset
-ij_any_keep_indents_on_empty_lines = unset
-ij_any_keep_line_breaks = unset
 ij_any_keep_simple_blocks_in_one_line = unset
 ij_any_keep_simple_classes_in_one_line = unset
 ij_any_keep_simple_methods_in_one_line = unset
@@ -177,6 +198,5 @@ ij_any_ternary_operation_wrap = unset
 ij_any_while_brace_force = unset
 ij_any_while_on_new_line = unset
 ij_any_wrap_comments = unset
-ij_any_wrap_long_lines = unset
 ##
 #######################
