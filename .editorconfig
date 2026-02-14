@@ -1,3 +1,13 @@
+#
+# Settings usage
+# * Most settings have multiple levels: general and language-specific.
+# * Order of priority: Language-specific > general > editor
+# * If the editor doesn't have built-in support for a rule, settings in the file may have no effect.
+# * Settings support a special "unset" value.
+#   * If the winning (language vs. general) setting is "unset", the editor's setting (if supported) is always used.
+#   * If the general setting is "unset" but a language version has a value, it will be used - general will be ignored.
+#
+
 root = true;
 
 [*]
