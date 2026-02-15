@@ -9,7 +9,50 @@ root = true
 #   * If the winning (language vs. general) setting is "unset", the editor's setting (if supported) is always used.
 #   * If the general setting is "unset" but the language has a value, that will be used - general will be ignored.
 #
-
+### ENUM VALUE GROUPS
+### Explanation of value groups for various settings
+## LEFT { PLACEMENT: end_of_line | gnu | next_line | next_line_if_wrapped | whitesmiths
+#
+## "end_of_line": Always place { at the end of the statement line
+# class Foo {
+#     private function foo() {
+#         if (true) {
+#
+## "gnu": Always place { on next line (half-indent*)
+#          * JetBrains IDEs alter this to a full indent, labeled "Next line, shifted".
+#            The body of the statement aligns with the {
+# class Foo
+#   {               // GNU style
+#      private function foo()
+#          {        // Jetbrains version
+#          if (true)
+#            {      // GNU style
+#
+## "next_line": Always place { on next line (no indent)
+# class Foo
+# {
+#     private function foo()
+#     {
+#         if (true)
+#         {
+#
+## "next_line_if_wrapped": Place { on next line (no indent) only if the statement is wrapped
+# class Foo {
+#     private function foo(
+#         param1,
+#         param2,
+#     )
+#     {
+#         if (true) {
+#
+## "whitesmiths": Place { on next line (full indent)
+#                  The body is also indented
+# class Foo
+#     {
+#         private function foo()
+#             {
+#                 if (true)
+#                     {
 #
 # TODO In order to minimize duplicate setting explanations, prefer grouping by formatting category/grouping.
 #      This allows settings from different languages to cluster together.
@@ -17,313 +60,448 @@ root = true
 #
 
 [*]
-#######################
-## STANDARD
-##
-# STRING: latin1 | utf-8 | utf-16be | utf-16le
+########################
+### STANDARD
+###
+# (ENUM) [latin1 | utf-8 | utf-16be | utf-16le]
 charset = unset
-# STRING: cr | crlf | lf
+# (ENUM) [cr | crlf | lf]
 end_of_line = unset
-# STRING: tab: use width of a tab character (see tab_width)
-# POSITIVE INTEGER: tabs/spaces to use (see indent_style)
+# (STRING) tab: use width of a tab character (see tab_width)
+# (INT > 0) tabs/spaces to use (see indent_style)
 indent_size = tab
-# STRING: space | tab
+# (ENUM) [space | tab]
 indent_style = unset
-# BOOL: ensure EOF is a single blank line
+# (BOOL) ensure EOF is a single blank line
 insert_final_newline = unset
-# STRING: off: do not hard-wrap long lines (or defer to editor)
-# POSITIVE INTEGER: length to hard-wrap lines
+# (STRING) off: do not hard-wrap long lines (or defer to editor)
+# (INT > 0) length to hard-wrap lines
 max_line_length = unset
-# POSITIVE INTEGER: visual representation of spaces a single tab character uses
+# (INT > 0) visual representation of spaces a single tab character uses
 tab_width = unset
-# BOOL: erase white space at the end of all lines
+# (BOOL) erase white space at the end of all lines
 trim_trailing_whitespace = unset
-##
-#######################
+###
+########################
 
-#######################
-#                     #
-# INTELLIJ EXTENSIONS #
-#                     #
-#######################
+###########################
+###                     ###
+### INTELLIJ EXTENSIONS ###
+###                     ###
+###########################
 # These will be reorganized as multi-language settings get grouped together
 
-#######################
-## GENERAL EDITING
-##
-##
-#######################
-
-#######################
-## FORMATTER
-##
+########################
+### FORMATTER
+###
+# (BOOL) TODO: Determine functionality
 ij_formatter_enabled = unset
-ij_formatter_off_tag = unset
-ij_formatter_on_tag = unset
+# (BOOL) Should code formatting recognize blocks where formatting is turned off?
 ij_formatter_tags_enabled = unset
-##
-#######################
+# (STRING) String immediately after a comment leader to deactivate formatting (after the tag's placement)
+# Ex: // @formatter:off
+ij_formatter_off_tag = unset
+# (STRING) String immediately after a comment leader to reactivate formatting (after the tag's placement)
+# Ex: // @formatter:on
+ij_formatter_on_tag = unset
+###
+########################
 
-#######################
-## TABS / INDENTS
-##
-# BOOL: Minimize characters by mixing tab characters and spaces to reach indentation
-ij_smart_tabs = unset
-# POSITIVE INTEGER to indent contiguous lines that are part of the same statement
-# See indent_size, indent_style, tab_width for how this will be formatted
-ij_continuation_indent_size = unset
-# BOOL: preserve whitespace indents on blank lines to preserve context
+########################
+### TABS / INDENTS
+###
+# (BOOL) preserve whitespace indents on blank lines to preserve context
 # TODO: Does this override trim_tailing_whitespace?
 ij_any_keep_indents_on_empty_lines = unset
-##
-#######################
+# (INT > 0) to indent contiguous lines that are part of the same statement
+# See indent_size, indent_style, tab_width for how this will be formatted
+ij_continuation_indent_size = unset
+# (BOOL) Minimize characters by mixing tab characters and spaces to reach indentation
+ij_smart_tabs = unset
+###
+########################
 
-#######################
-## SPACES
-##
-## Before [
-##
+########################
+### SPACES
+###
+### Before [
+### (BOOL) Ensure a space before the opening "[" of a block/structure
+###
+
+###
+### Before {
+### (BOOL) Ensure a space before the opening "{" of a block/structure
+###
+#
+# true: " {1, 2, 3}"
+# false: "{1, 2, 3}"
 ij_any_space_before_array_initializer_left_brace = unset
-##
-## Before {
-##
+# true: "catch {"
+# false: "catch{"
 ij_any_space_before_catch_left_brace = unset
+# true: "class {"
+# false: "class{"
 ij_any_space_before_class_left_brace = unset
+# true: "do {"
+# false: "do{"
 ij_any_space_before_do_left_brace = unset
+# true: "else {"
+# false: "else{"
 ij_any_space_before_else_left_brace = unset
+# true: "finally {"
+# false: "finally{"
 ij_any_space_before_finally_left_brace = unset
+# true: "for () {"
+# false: "for (){"
 ij_any_space_before_for_left_brace = unset
+# true: "if () {"
+# false: "if (){"
 ij_any_space_before_if_left_brace = unset
+# true: "function () {"
+# false: "function (){"
 ij_any_space_before_method_left_brace = unset
+# true: "switch () {"
+# false: "switch (){"
 ij_any_space_before_switch_left_brace = unset
+# true: "try {"
+# false: "try{"
 ij_any_space_before_try_left_brace = unset
+# true: "while () {"
+# false: "while (){"
 ij_any_space_before_while_left_brace = unset
-##
-## Before (
-##
+###
+### Before (
+### (BOOL) Ensure a space before the opening "(" of a block/structure
+###
+# true: "catch ()"
+# false: "catch()"
 ij_any_space_before_catch_parentheses = unset
+# true: "for ()"
+# false: "for()"
 ij_any_space_before_for_parentheses = unset
+# true: "if ()"
+# false: "if()"
 ij_any_space_before_if_parentheses = unset
+# true: "foo (bar)"
+# false: "foo(bar)"
 ij_any_space_before_method_call_parentheses = unset
+# true: "function foo (param)"
+# false: "function foo(param)"
 ij_any_space_before_method_parentheses = unset
+# true: "switch ()"
+# false: "switch()"
 ij_any_space_before_switch_parentheses = unset
+# true: "while ()"
+# false: "while()"
 ij_any_space_before_while_parentheses = unset
-##
-## Before keywords
-##
+###
+### Before keywords
+### (BOOL) Ensure a space before the opening "(" of a block/structure
+###
+# true: "while ()"
+# false: "while()"
 ij_any_space_before_catch_keyword = unset
+# true: "while ()"
+# false: "while()"
 ij_any_space_before_else_keyword = unset
+# true: "while ()"
+# false: "while()"
 ij_any_space_before_finally_keyword = unset
+# true: "while ()"
+# false: "while()"
 ij_any_space_before_while_keyword = unset
-##
-## Around Operators
-##
+###
+### Around Operators
+### (BOOL) Ensure a space before and after various operators
+###
+# true: "1 + 2", "3 - 1"
+# false: "1+2", "3-1"
 ij_any_spaces_around_additive_operators = unset
+# true: "foo = 3"
+# false: "foo=3"
 ij_any_spaces_around_assignment_operators = unset
+# true: "foo ^ 2", "foo | 2"
+# false: "foo^2", "foo|2"
 ij_any_spaces_around_bitwise_operators = unset
+# true: "foo == 2", "foo != 2"
+# false: "foo==2", "foo!=2"
 ij_any_spaces_around_equality_operators = unset
+# true: "foo && bar", "foo || bar"
+# false: "foo&&bar", "foo||bar"
 ij_any_spaces_around_logical_operators = unset
+# true: "2 * 3", "6 / 3", "6 % 3"
+# false: "2*3", "6/3", "6%3"
 ij_any_spaces_around_multiplicative_operators = unset
+# true: "2 < 3", "2 >= 3", "2 <=> 3"
+# false: "2<3", "2>=3", "2<=>3"
 ij_any_spaces_around_relational_operators = unset
+# true: "foo << bar"
+# false: "foo>>bar"
 ij_any_spaces_around_shift_operators = unset
+# true: "( ! foo)"
+# false: "(!foo)"
 ij_any_spaces_around_unary_operator = unset
-##
-## Within [] {} ()
-##
+###
+### Within {} [] ()
+### (BOOL) Ensure a space after left character and before right character
+###
+# true: "[ 1, 2, 3 ]"
+# false: "[1, 2, 3]"
 ij_any_spaces_within_brackets = unset
+# true: "{ "foo":123 }"
+# false: "{"foo":123}"
 ij_any_spaces_within_braces = unset
+# true: "{ a, b, c }"
+# false: "{a, b, c}"
 ij_any_spaces_within_array_initializer_braces = unset
-ij_any_spaces_within_parentheses = unset
+# true: "function foo( param )"
+# false: "function foo( param )"
 ij_any_spaces_within_method_parentheses = unset
+# true: "A || ( B && C )"
+# false: "A || (B&&C)"
+ij_any_spaces_within_parentheses = unset
+# true: "foo( bar )"
+# false: "foo(bar)"
 ij_any_spaces_within_method_call_parentheses = unset
+# true: "if ( true )"
+# false: "if (true)"
 ij_any_spaces_within_if_parentheses = unset
+# true: "for ( a; b < c; b++ )"
+# false: "for (a; b < c; b++)"
 ij_any_spaces_within_for_parentheses = unset
+# true: "while ( x < 5 )"
+# false: "while (x < 5)"
 ij_any_spaces_within_while_parentheses = unset
+# true: "switch ( foo )"
+# false: "switch (foo)"
 ij_any_spaces_within_switch_parentheses = unset
+# true: "catch ( Exception e )"
+# false: "catch (Exception e)"
 ij_any_spaces_within_catch_parentheses = unset
-##
-## In ternary ?:
-##
+###
+### In ternary ?:
+### (BOOL) Define spaces around the "?" and ":" characters of a ternary expression
+###
+# true: "b ? c : d"
+# false: "b? c : d"
 ij_any_space_before_quest = unset
+# true: "b ? c : d"
+# false: "b ?c : d"
 ij_any_space_after_quest = unset
+# true: "b ? c : d"
+# false: "b ? c: d"
 ij_any_space_before_colon = unset
+# true: "b ? c : d"
+# false: "b ? c :d"
 ij_any_space_after_colon = unset
-##
-## Other
-##
+###
+### Other
+### (BOOL) Placement of spaces in other scenarios
+###
+# true: "b , c ,d"
+# false: "b, c,d"
 ij_any_space_before_comma = unset
+# true: "b, c , d"
+# false: "b,c ,d"
 ij_any_space_after_comma = unset
+# true: "for (a = 1 ; a < b ;a++)"
+# false: "for (a = 1; a < b;a++);"
 ij_any_space_before_for_semicolon = unset
+# true: "for (a = 1 ; a < b; a++)"
+# false: "for (a = 1 ;a < b;a++);"
 ij_any_space_after_for_semicolon = unset
+# true: "(int) '1'"
+# false: "(int)'1'"
 ij_any_space_after_type_cast = unset
-##
-#######################
+###
+########################
 
-#######################
-## WRAPPING / BRACES
-##
-# BOOL: Editor should actively break long lines while typing (see max_line_length)
-ij_wrap_on_typing = unset
-# POSITIVE INTEGER(S): Comma separated list of ascending values to set the right margin indicator
+########################
+### WRAPPING / BRACES
+###
+# (INT > 0) Comma separated list of ascending values to set the right margin indicator
 # Ex: 80
 # Ex: 80, 120, 160
 ij_visual_guides = unset
-##
-## Keep When Reformatting
-##
-# BOOL: Preserve preexisting line breaks on unchanged lines
+# (BOOL) Editor should actively break long lines while typing (see max_line_length)
+ij_wrap_on_typing = unset
+###
+### Keep When Reformatting
+###
+# (BOOL) Preserve preexisting control statements that were formatted on one line
 ij_any_keep_control_statement_in_one_line = unset
+# (BOOL) Preserve preexisting comments places at start-of-line
 ij_any_keep_first_column_comment = unset
+# (BOOL) Preserve preexisting line breaks on unchanged lines
 ij_any_keep_line_breaks = unset
+# (BOOL) Preserve preexisting class definitions written on a single line
 ij_any_keep_simple_blocks_in_one_line = unset
+# (BOOL) Preserve preexisting class definitions written on a single line
 ij_any_keep_simple_classes_in_one_line = unset
+# (BOOL) Preserve preexisting function definitions written on a single line
 ij_any_keep_simple_methods_in_one_line = unset
-# BOOL: Wrap long lines, formatting split lines according to other rules
-# TODO: Confirm functionality - doc only says "TBD"
+# (BOOL) Wrap long lines, formatting split lines according to other rules
 ij_any_wrap_long_lines = unset
-##
-## Braces Placement
-##
+###
+### Braces Placement
+### (BLOCK BRACES ENUM) end_of_line | gnu | next_line | next_line_if_wrapped | whitesmiths
+###
 ij_any_block_brace_style = unset
 ij_any_class_brace_style = unset
 ij_any_method_brace_style = unset
 ij_any_lambda_brace_style = unset
-##
-## Extends / Implements / Permits Lists
-##
+###
+### Extends / Implements / Permits Lists
+###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
+# TODO Document the enum values at top of file
 ij_any_extends_list_wrap = unset
+# (BOOL) When a list of classes following "extends", "implements", or "permits"
+#        is split into multiple lines, align the list items that start a new line
+#        with the first list item on the previous line
+#
+# ----------------------------| max-line-length
+# true:
+# class A implements Foo, Bar,
+#                    FooFoo,
+#                    BarBar {}
+#
+# false: (break to a continuation indent)
+# class A implements Foo, Bar,
+#     FooFoo, BarBar
 ij_any_align_multiline_extends_list = unset
-##
-## Extends / Implements / Permits Keyword
-##
+###
+### Extends / Implements / Permits Keyword
+###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_extends_keyword_wrap = unset
-##
-## Function Declaration Parameters
-##
+###
+### Function Declaration Parameters
+###
 ij_any_method_parameters_wrap = unset
 ij_any_align_multiline_parameters = unset
 ij_any_method_parameters_new_line_after_left_paren = unset
 ij_any_method_parameters_right_paren_on_new_line = unset
 ij_any_prefer_parameters_wrap = unset
-##
-## Function / Constructor Call Arguments
-##
+###
+### Function / Constructor Call Arguments
+###
 ij_any_call_parameters_wrap = unset
 ij_any_align_multiline_parameters_in_calls = unset
 ij_any_call_parameters_new_line_after_left_paren = unset
 ij_any_call_parameters_right_paren_on_new_line = unset
-##
-## Chained Method Calls
-##
+###
+### Chained Method Calls
+###
 ij_any_method_call_chain_wrap = unset
 ij_any_align_multiline_chained_methods = unset
-##
-## 'if()' Statement
-##
+###
+### 'if()' Statement
+###
 ij_any_if_brace_force = unset
 ij_any_else_on_new_line = unset
 ij_any_special_else_if_treatment = unset
-##
-## 'for()' / 'foreach()' Statement
-##
+###
+### 'for()' / 'foreach()' Statement
+###
 ij_any_for_statement_wrap = unset
 ij_any_align_multiline_for = unset
 ij_any_for_statement_new_line_after_left_paren = unset
 ij_any_for_statement_right_paren_on_new_line = unset
 ij_any_for_brace_force = unset
-##
-## 'while()' Statement
-##
+###
+### 'while()' Statement
+###
 ij_any_while_brace_force = unset
-##
-## 'do...while()' Statement
-##
+###
+### 'do...while()' Statement
+###
 ij_any_do_while_brace_force = unset
 ij_any_while_on_new_line = unset
-##
-## 'switch()' Statement
-##
+###
+### 'switch()' Statement
+###
 ij_any_indent_break_from_case = unset
 ij_any_indent_case_from_switch = unset
-##
-## 'try' Statement
-##
+###
+### 'try' Statement
+###
 ij_any_catch_on_new_line = unset
 ij_any_finally_on_new_line = unset
-##
-## Binary Expressions
-##
+###
+### Binary Expressions
+###
 ij_any_binary_operation_wrap = unset
 ij_any_align_multiline_binary_operation = unset
 ij_any_binary_operation_sign_on_next_line = unset
 ij_any_parentheses_expression_new_line_after_left_paren = unset
 ij_any_parentheses_expression_right_paren_on_new_line = unset
-##
-## Assignment Statement
-##
+###
+### Assignment Statement
+###
 ij_any_assignment_wrap = unset
 ij_any_place_assignment_sign_on_next_line = unset
-##
-## Class Property / Constant Groups
-##
+###
+### Class Property / Constant Groups
+###
 ij_any_align_group_field_declarations = unset
-##
-## Ternary Operation
-##
+###
+### Ternary Operation
+###
 ij_any_ternary_operation_wrap = unset
 ij_any_align_multiline_ternary_operation = unset
 ij_any_ternary_operation_signs_on_next_line = unset
-##
-## Array Initializer
-##
+###
+### Array Initializer
+###
 ij_any_array_initializer_wrap = unset
 ij_any_align_multiline_array_initializer_expression = unset
 ij_any_array_initializer_new_line_after_left_brace = unset
 ij_any_array_initializer_right_brace_on_new_line = unset
-##
-## Modifier List
-##
+###
+### Modifier List
+###
 ij_any_modifier_list_wrap = unset
-##
-## Comments
-##
-##
-#######################
+###
+### Comments
+###
+###
+########################
 
-#######################
-## BLANK LINES
-##
-## Keep Maximum Blank Lines
-##
+########################
+### BLANK LINES
+###
+### Keep Maximum Blank Lines
+###
 ij_any_keep_blank_lines_in_declarations = unset
 ij_any_keep_blank_lines_in_code = unset
 ij_any_keep_blank_lines_before_right_brace = unset
-##
-## Minimum Blank Lines
-##
+###
+### Minimum Blank Lines
+###
 ij_any_blank_lines_around_class = unset
 ij_any_blank_lines_after_class_header = unset
 ij_any_blank_lines_before_class_end = unset
 ij_any_blank_lines_around_field = unset
 ij_any_blank_lines_around_method = unset
 ij_any_blank_lines_before_method_body = unset
-##
-#######################
+###
+########################
 
-#######################
-## CODE GENERATION
-##
-## Comments
+########################
+### CODE GENERATION
+###
+### Comments
 ij_any_block_comment_add_space = unset
 ij_any_block_comment_at_first_column = unset
 ij_any_line_comment_at_first_column = unset
 ij_any_line_comment_add_space = unset
 ij_any_line_comment_add_space_on_reformat = unset
-##
-#######################
+###
+########################
 
-#######################
-## TBD
+########################
+### TBD
 ij_any_blank_lines_after_imports = unset
 ij_any_blank_lines_after_package = unset
 ij_any_blank_lines_around_field_in_interface = unset
@@ -332,17 +510,17 @@ ij_any_blank_lines_before_imports = unset
 ij_any_blank_lines_before_package = unset
 ij_any_enum_constants_wrap = unset
 ij_any_wrap_comments = unset
-##
-#######################
+###
+########################
 
-###########################
-## PER-LANGUAGE SETTINGS ##
-###########################
+#############################
+### PER-LANGUAGE SETTINGS ###
+#############################
 
-#######
-# PHP #
-#######
-#######################
-## PHP Doc
-##
-#######################
+#########
+## PHP ##
+#########
+########################
+### PHP Doc
+###
+########################
