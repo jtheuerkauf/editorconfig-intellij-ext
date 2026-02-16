@@ -9,8 +9,10 @@ root = true
 #   * If the winning (language vs. general) setting is "unset", the editor's setting (if supported) is always used.
 #   * If the general setting is "unset" but the language has a value, that will be used - general will be ignored.
 #
+
 ### ENUM VALUE GROUPS
 ### Explanation of value groups for various settings
+
 ## LEFT { PLACEMENT: end_of_line | gnu | next_line | next_line_if_wrapped | whitesmiths
 #
 ## "end_of_line": Always place { at the end of the statement line
@@ -53,6 +55,47 @@ root = true
 #             {
 #                 if (true)
 #                     {
+
+## LINE WRAPS: normal | off | on_every_item | split_into_lines
+#
+## "off": Long lines are not wrapped during formatting. "ij_wrap_on_typing" is unaffected by this value.
+#
+## "normal": Break lines into continuation indents until the remaining text fits within max line length
+##           In this example, the setting applies to extends/implements/permits keywords.
+##           No consideration is given to context of keywords, lists, etc.
+# -------------------------------| max-line-length
+# class Anchovies extends BlueFinTuna implements Foo, Bar, FooFoo, BarBar {}
+# // formatted:
+# class Anchovies extends
+#     BlueFinTuna implements Foo,
+#     Bar, FooFoo, BarBar {}
+#
+## "on_every_item": Wrap the bound symbols into one-per-line regardless if the remainder is within max line limit.
+##                  In this example, the setting applies to extends/implements/permits keywords:
+##                  The keywords are "chopped" to the following lines, not the class names that follow.
+# -------------------------------| max-line-length
+# class Anchovies extends BlueFinTuna implements Foo, Bar, FooFoo, BarBar {}
+# // formatted:
+# class Anchovies extends
+#     BlueFinTuna implements Foo, Bar,
+#                FooFoo,
+#                BarBar {}
+#
+## "split_into_lines": If any portion of the line exceeds the max limit, wrap the setting's target.
+##                     Lists are further wrapped one-per-line.
+##                     In this example, the setting applies to extends/implements/permits keywords:
+##                     The classes following the keywords are wrapped, and the list is ...split into lines.
+# -------------------------------| max-line-length
+# class Anchovies extends BlueFinTuna implements Foo, Bar, FooFoo, BarBar {}
+# // formatted:
+# class Anchovies extends
+#     BlueFinTuna implements
+#     Foo,
+#     Bar,
+#     FooFoo,
+#     BarBar {}
+#
+
 #
 # TODO In order to minimize duplicate setting explanations, prefer grouping by formatting category/grouping.
 #      This allows settings from different languages to cluster together.
@@ -356,19 +399,9 @@ ij_any_lambda_brace_style = unset
 # (ENUM) [normal | off | on_every_item | split_into_lines]
 # TODO Document the enum values at top of file
 ij_any_extends_list_wrap = unset
-# (BOOL) When a list of classes following "extends", "implements", or "permits"
-#        is split into multiple lines, align the list items that start a new line
-#        with the first list item on the previous line
-#
-# ----------------------------| max-line-length
-# true:
-# class A implements Foo, Bar,
-#                    FooFoo,
-#                    BarBar {}
-#
-# false: (break to a continuation indent)
-# class A implements Foo, Bar,
-#     FooFoo, BarBar
+# (BOOL) How to treat classes listed with the "extends", "implements", or "permits" keywords:
+# true: When classes wrap to multiple lines, align class names to each other
+# false: Every line wraps to the previous line's indent, do not adjust class name alignment
 ij_any_align_multiline_extends_list = unset
 ###
 ### Extends / Implements / Permits Keyword
