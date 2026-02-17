@@ -96,6 +96,28 @@ root = true
 #     BarBar {}
 #
 
+## ENFORCE CONTROL BLOCK { }: always | if_multiline | never
+#
+## "always": Braces are added to the control statement even if syntactically not required
+# if (true) functionCall(); ~> if (true) {functionCall();}
+#
+# if (true)            ~>  if (true) {
+#     functionCall();  ~>      functionCall();
+#                      ~>  }
+#
+## "if_multiline": Braces are added to the control statement if the statement and body are on different lines
+# if (true) functionCall(); ~> if (true) functionCall(); // unchanged
+#
+# if (true)            ~>  if (true) {
+#     functionCall();  ~>      functionCall();
+#                      ~>  }
+#
+## "never": Braces are not added
+# if (true) functionCall(); ~> if (true) functionCall(); // unchanged
+#
+# if (true)            ~>  if (true)
+#     functionCall();  ~>      functionCall();           // unchanged
+
 #
 # TODO In order to minimize duplicate setting explanations, prefer grouping by formatting category/grouping.
 #      This allows settings from different languages to cluster together.
@@ -288,39 +310,39 @@ ij_any_spaces_around_unary_operator = unset
 ### Within {} [] ()
 ### (BOOL) Ensure a space after left character and before right character
 ###
-# true: "[ 1, 2, 3 ]"
-# false: "[1, 2, 3]"
-ij_any_spaces_within_brackets = unset
-# true: "{ "foo":123 }"
-# false: "{"foo":123}"
-ij_any_spaces_within_braces = unset
 # true: "{ a, b, c }"
 # false: "{a, b, c}"
 ij_any_spaces_within_array_initializer_braces = unset
+# true: "{ "foo":123 }"
+# false: "{"foo":123}"
+ij_any_spaces_within_braces = unset
+# true: "[ 1, 2, 3 ]"
+# false: "[1, 2, 3]"
+ij_any_spaces_within_brackets = unset
+# true: "catch ( Exception e )"
+# false: "catch (Exception e)"
+ij_any_spaces_within_catch_parentheses = unset
+# true: "for ( a; b < c; b++ )"
+# false: "for (a; b < c; b++)"
+ij_any_spaces_within_for_parentheses = unset
+# true: "if ( true )"
+# false: "if (true)"
+ij_any_spaces_within_if_parentheses = unset
+# true: "foo( bar )"
+# false: "foo(bar)"
+ij_any_spaces_within_method_call_parentheses = unset
 # true: "function foo( param )"
 # false: "function foo( param )"
 ij_any_spaces_within_method_parentheses = unset
 # true: "A || ( B && C )"
 # false: "A || (B&&C)"
 ij_any_spaces_within_parentheses = unset
-# true: "foo( bar )"
-# false: "foo(bar)"
-ij_any_spaces_within_method_call_parentheses = unset
-# true: "if ( true )"
-# false: "if (true)"
-ij_any_spaces_within_if_parentheses = unset
-# true: "for ( a; b < c; b++ )"
-# false: "for (a; b < c; b++)"
-ij_any_spaces_within_for_parentheses = unset
-# true: "while ( x < 5 )"
-# false: "while (x < 5)"
-ij_any_spaces_within_while_parentheses = unset
 # true: "switch ( foo )"
 # false: "switch (foo)"
 ij_any_spaces_within_switch_parentheses = unset
-# true: "catch ( Exception e )"
-# false: "catch (Exception e)"
-ij_any_spaces_within_catch_parentheses = unset
+# true: "while ( x < 5 )"
+# false: "while (x < 5)"
+ij_any_spaces_within_while_parentheses = unset
 ###
 ### In ternary ?:
 ### (BOOL) Define spaces around the "?" and ":" characters of a ternary expression
@@ -391,109 +413,190 @@ ij_any_wrap_long_lines = unset
 ###
 ij_any_block_brace_style = unset
 ij_any_class_brace_style = unset
-ij_any_method_brace_style = unset
 ij_any_lambda_brace_style = unset
+ij_any_method_brace_style = unset
 ###
 ### Extends / Implements / Permits Lists
 ###
 # (ENUM) [normal | off | on_every_item | split_into_lines]
-# TODO Document the enum values at top of file
+# How to format classes applied by extends/implements/permits keywords when the line is wrapped
 ij_any_extends_list_wrap = unset
 # (BOOL) How to treat classes listed with the "extends", "implements", or "permits" keywords:
-# true: When classes wrap to multiple lines, align class names to each other
+# true:  When classes wrap to multiple lines, align class names to each other
 # false: Every line wraps to the previous line's indent, do not adjust class name alignment
 ij_any_align_multiline_extends_list = unset
 ###
 ### Extends / Implements / Permits Keyword
 ###
-# (ENUM) [normal | off | on_every_item | split_into_lines]
+# (ENUM) [normal | off | split_into_lines]*
+# * "on_every_item" is supported, but is equivalent to "normal" because it applies to a single keyword, not a list.
 ij_any_extends_keyword_wrap = unset
 ###
 ### Function Declaration Parameters
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
+# How to format function definition parameters when the line is wrapped
 ij_any_method_parameters_wrap = unset
+# (BOOL) Should function definition parameters be aligned when wrapped to multiple lines?
+# true:  function foo(barA,
+#                     barB) {}
+# false: function foo(barA,
+#            barB) {}
 ij_any_align_multiline_parameters = unset
+# (BOOL) When parameters are wrapped, add a line break after "("
+# true:  function foo(
+#            barA,
+#            barB) {}
+# false: function foo(barA,
+#            barB) {}
 ij_any_method_parameters_new_line_after_left_paren = unset
+# (BOOL) When parameters are wrapped, add a line break before ")"
+# true:  function foo(barA,
+#            barB
+#        ) {}
+# false: function foo(barA,
+#            barB) {}
 ij_any_method_parameters_right_paren_on_new_line = unset
+# (BOOL) TODO: TBD
 ij_any_prefer_parameters_wrap = unset
 ###
 ### Function / Constructor Call Arguments
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
+# How to format function call arguments when the line is wrapped
 ij_any_call_parameters_wrap = unset
+# (BOOL) Should function call arguments be aligned when wrapped to multiple lines?
+# true:  fooFunction(barA,
+#                    barB);
+# false: fooFunction(barA,
+#            barB);
 ij_any_align_multiline_parameters_in_calls = unset
+# (BOOL) When arguments are wrapped, add a line break after "("
 ij_any_call_parameters_new_line_after_left_paren = unset
+# (BOOL) When parameters are wrapped, add a line break before ")"
 ij_any_call_parameters_right_paren_on_new_line = unset
 ###
 ### Chained Method Calls
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
+# How to format function call chains when the line is wrapped
 ij_any_method_call_chain_wrap = unset
+# (BOOL) Should chained function calls be aligned when wrapped to multiple lines?
+# true: align each call with the call on the preceding line
+# Object.funcA()
+#       .funcB()
+# false: use continuation indent
+# Object.funcA()
+#     .funcB()
 ij_any_align_multiline_chained_methods = unset
 ###
 ### 'if()' Statement
 ###
+# (ENUM) [always | if_multiline | never]
 ij_any_if_brace_force = unset
+# (BOOL) true: wrap "else" to the line after "if" closing }
 ij_any_else_on_new_line = unset
+# (BOOL) If supported, should "else if" be unified as "elseif"?
 ij_any_special_else_if_treatment = unset
 ###
 ### 'for()' / 'foreach()' Statement
 ###
-ij_any_for_statement_wrap = unset
-ij_any_align_multiline_for = unset
-ij_any_for_statement_new_line_after_left_paren = unset
-ij_any_for_statement_right_paren_on_new_line = unset
+# (ENUM) [always | if_multiline | never]
 ij_any_for_brace_force = unset
+# (ENUM) [normal | off | on_every_item | split_into_lines]
+# How should the parts of a for()/foreach() statement be wrapped?
+ij_any_for_statement_wrap = unset
+# (BOOL) Should the parts of the for()/foreach() statement be aligned across lines?
+# true:  for (index = 0;
+#             index < count;
+#             index++) {}
+# false: for (index = 0;
+#            index < count;
+#            index++) {}
+# true:  foreach ($fooBar as
+#                 $foo => $bar) {}
+# false: foreach ($fooBar as
+#            $foo => $bar) {}
+ij_any_align_multiline_for = unset
+# (BOOL) When arguments are wrapped, add a line break after "("
+ij_any_for_statement_new_line_after_left_paren = unset
+# (BOOL) When parameters are wrapped, add a line break before ")"
+ij_any_for_statement_right_paren_on_new_line = unset
 ###
 ### 'while()' Statement
 ###
+# (ENUM) [always | if_multiline | never]
 ij_any_while_brace_force = unset
 ###
 ### 'do...while()' Statement
 ###
+# (ENUM) [always | if_multiline | never]
 ij_any_do_while_brace_force = unset
+# (BOOL) true: wrap "while" to the line after "do" closing }
 ij_any_while_on_new_line = unset
 ###
 ### 'switch()' Statement
 ###
+# (BOOL) true: "break" is indented; false: "break" is aligned with "case"
 ij_any_indent_break_from_case = unset
+# (BOOL) true: "case" is indented; false: "case" is aligned with "switch"
 ij_any_indent_case_from_switch = unset
 ###
 ### 'try' Statement
 ###
+# (BOOL) true: wrap "catch" to the line after "try"/"catch" closing }
 ij_any_catch_on_new_line = unset
+# (BOOL) true: wrap "finally" to the line after "try"/"catch" closing }
 ij_any_finally_on_new_line = unset
 ###
 ### Binary Expressions
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_binary_operation_wrap = unset
+# (BOOL) Should the operands in a multiline statement be aligned or set to continuation indent?
 ij_any_align_multiline_binary_operation = unset
+# (BOOL) Should the operator go to the next line with the operand or stay at end of previous line?
 ij_any_binary_operation_sign_on_next_line = unset
+# (BOOL) When an operand group gets wrapped, should a new line be forced after the opening "("?
 ij_any_parentheses_expression_new_line_after_left_paren = unset
+# (BOOL) When an operand group gets wrapped, should a new line be forced before the closing ")"?
 ij_any_parentheses_expression_right_paren_on_new_line = unset
 ###
 ### Assignment Statement
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_assignment_wrap = unset
+# (BOOL) Should the assignment operator move to lead the wrapped line or remain at end of line?
 ij_any_place_assignment_sign_on_next_line = unset
 ###
 ### Class Property / Constant Groups
 ###
+# (BOOL) Should groups of fields (on contiguous lines) be aligned on "="?
 ij_any_align_group_field_declarations = unset
 ###
 ### Ternary Operation
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_ternary_operation_wrap = unset
+# (BOOL) Should the true/false sides of the ternary be aligned when wrapped or set to continuation indent?
 ij_any_align_multiline_ternary_operation = unset
+# (BOOL) Should the "?" and ":" operators lead the wrapped line(s) or stay at end of previous line(s)?
 ij_any_ternary_operation_signs_on_next_line = unset
 ###
 ### Array Initializer
 ###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_array_initializer_wrap = unset
+# (BOOL) Should the items in the array be aligned based on the first element?
 ij_any_align_multiline_array_initializer_expression = unset
+# (BOOL) Should a new line be forced after the opening "["?
 ij_any_array_initializer_new_line_after_left_brace = unset
+# (BOOL) Should a new line be forced before the closing "]"?
 ij_any_array_initializer_right_brace_on_new_line = unset
 ###
 ### Modifier List
 ###
+# (BOOL) Should wrapping include modifiers on class/properties/methods?
 ij_any_modifier_list_wrap = unset
 ###
 ### Comments
@@ -504,20 +607,28 @@ ij_any_modifier_list_wrap = unset
 ########################
 ### BLANK LINES
 ###
-### Keep Maximum Blank Lines
-###
-ij_any_keep_blank_lines_in_declarations = unset
-ij_any_keep_blank_lines_in_code = unset
-ij_any_keep_blank_lines_before_right_brace = unset
-###
 ### Minimum Blank Lines
 ###
-ij_any_blank_lines_around_class = unset
+### (INT >= 0) Force minimum blank lines in these contexts
 ij_any_blank_lines_after_class_header = unset
-ij_any_blank_lines_before_class_end = unset
+ij_any_blank_lines_after_imports = unset
+ij_any_blank_lines_after_package = unset
+ij_any_blank_lines_around_class = unset
 ij_any_blank_lines_around_field = unset
+ij_any_blank_lines_around_field_in_interface = unset
 ij_any_blank_lines_around_method = unset
+ij_any_blank_lines_around_method_in_interface = unset
+ij_any_blank_lines_before_class_end = unset
+ij_any_blank_lines_before_imports = unset
 ij_any_blank_lines_before_method_body = unset
+ij_any_blank_lines_before_package = unset
+###
+### Keep Maximum Blank Lines
+###
+### (INT >= 0) Limit blank lines in these contexts
+ij_any_keep_blank_lines_before_right_brace = unset
+ij_any_keep_blank_lines_in_code = unset
+ij_any_keep_blank_lines_in_declarations = unset
 ###
 ########################
 
@@ -525,23 +636,25 @@ ij_any_blank_lines_before_method_body = unset
 ### CODE GENERATION
 ###
 ### Comments
+# (BOOL) Force a space before the start of text in a block comment
 ij_any_block_comment_add_space = unset
+# (BOOL) Move block comments to start-of-line instead of indented to context
 ij_any_block_comment_at_first_column = unset
+# (BOOL) Move line comments to start-of-line instead of indented to context
 ij_any_line_comment_at_first_column = unset
+# (BOOL) Force a space before the start of text when converting to a line comment
 ij_any_line_comment_add_space = unset
+# (BOOL) Force a space before the start of text when formatting
 ij_any_line_comment_add_space_on_reformat = unset
 ###
 ########################
 
 ########################
 ### TBD
-ij_any_blank_lines_after_imports = unset
-ij_any_blank_lines_after_package = unset
-ij_any_blank_lines_around_field_in_interface = unset
-ij_any_blank_lines_around_method_in_interface = unset
-ij_any_blank_lines_before_imports = unset
-ij_any_blank_lines_before_package = unset
+###
+# (ENUM) [normal | off | on_every_item | split_into_lines]
 ij_any_enum_constants_wrap = unset
+# (BOOL) Should long lines in comments follow wrapping rules?
 ij_any_wrap_comments = unset
 ###
 ########################
